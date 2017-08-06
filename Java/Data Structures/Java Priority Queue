@@ -1,0 +1,66 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+class Checker implements Comparator<Student> {
+   @Override
+   public int compare(Student a, Student b) {
+       if (a.getCgpa() > b.getCgpa()) { return -1; }
+       else if (a.getCgpa() == b.getCgpa()) {
+           if (a.getFname().compareTo(b.getFname()) > 0) { return 1; }
+           else if (a.getFname().compareTo(b.getFname()) == 0) {
+               return a.getToken() > b.getToken() ? 1 : -1;
+           }
+           else { return -1; }
+       }
+       else { return 1;}
+   }
+}
+
+class Student{
+   private int token;
+   private String fname;
+   private double cgpa;
+   public Student(int id, String fname, double cgpa) {
+      super();
+      this.token = id;
+      this.fname = fname;
+      this.cgpa = cgpa;
+   }
+   public int getToken() {
+      return token;
+   }
+   public String getFname() {
+      return fname;
+   }
+   public double getCgpa() {
+      return cgpa;
+   }
+}
+
+public class Solution {
+
+    public static void main(String[] args) {
+      Scanner in = new Scanner(System.in);
+      int totalEvents = Integer.parseInt(in.nextLine());
+      Checker checker = new Checker();
+      PriorityQueue<Student> queue = new PriorityQueue<Student>(totalEvents, checker);
+      for (int i = 0; i < totalEvents; i++) {
+         String event = in.next();
+         if (event.equals("ENTER")) {
+           String fname = in.next();
+           Double cgpa = in.nextDouble();
+           int id = in.nextInt();
+           queue.add(new Student(id, fname, cgpa));
+         }
+         else if (event.equals("SERVED")) { queue.poll(); }
+      }
+      if (queue.size() == 0) { System.out.println("EMPTY"); }
+      while (queue.size() > 0) {
+            System.out.println(queue.poll().getFname());
+      }
+      in.close();
+    }
+}
