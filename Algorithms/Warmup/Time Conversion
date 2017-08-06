@@ -1,0 +1,28 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    static String timeConversion(String s) {
+        DateFormat r = new SimpleDateFormat("hh:mm:ssaa");
+        DateFormat f = new SimpleDateFormat("HH:mm:ss");
+        Date date;
+        try {
+            date = r.parse(s);
+        }
+        catch(Exception e) {
+            return e.toString();
+        }
+        return f.format(date);
+    }
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String s = in.next();
+        String result = timeConversion(s);
+        System.out.println(result);
+    }
+}
