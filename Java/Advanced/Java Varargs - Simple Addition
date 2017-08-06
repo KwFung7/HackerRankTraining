@@ -1,0 +1,13 @@
+class Add {
+    public static void add(int... n) {
+        int sum = 0;
+        int count = 0;
+        for ( int item : n) {
+            sum += item;
+            count++;
+            if (count == n.length) { System.out.print(item + "="); }
+            else { System.out.print(item + "+"); }
+        }
+        System.out.println(sum);
+    }
+}
