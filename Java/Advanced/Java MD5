@@ -1,0 +1,26 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+import java.security.*;
+
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        String str = input.next();
+        input.close();
+        try {
+            MessageDigest m = MessageDigest.getInstance("MD5");
+            byte[] bytesOfMsg = m.digest(str.getBytes("UTF-8"));
+            BigInteger bigInt = new BigInteger(1, bytesOfMsg);
+            String hashtext = bigInt.toString(16);
+            System.out.println(hashtext);
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
+    }
+}
