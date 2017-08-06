@@ -1,0 +1,10 @@
+            if (order.equals("cake")) {
+                Food cake = new Cake();
+                return cake;
+            }
+            else if (order.equals("pizza")) {
+                Food pizza = new Pizza();
+                return pizza;
+            }
+            else { return null; }
+
