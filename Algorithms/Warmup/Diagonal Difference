@@ -1,0 +1,24 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        int ar[][] = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                ar[i][j] = input.nextInt();
+            }
+        }
+        int firstDiagonal = 0;
+        int secondDiagonal = 0;
+        for (int i = 0; i < n; i++) {
+            firstDiagonal += ar[i][i];
+            secondDiagonal += ar[i][n - i - 1];
+        }
+        int result = Math.abs(firstDiagonal - secondDiagonal);
+        System.out.println(result);
+    }
+}
