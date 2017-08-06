@@ -1,0 +1,9 @@
+//Write your code here
+Set pairs = new HashSet();
+for (int i = 0; i < t; i++){
+    String wholePair = pair_left[i] + " " + pair_right[i];
+    if (pairs.add(wholePair)) {
+        pairs.add(wholePair);
+    }
+    System.out.println(pairs.size());
+}
