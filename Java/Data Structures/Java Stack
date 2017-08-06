@@ -1,0 +1,36 @@
+import java.util.*;
+class Solution{
+    
+   public static void checkMatch(Stack leftSt, Stack rightSt, char item, char previous) {
+      if (!(leftSt.empty()) && leftSt.peek().equals(previous)) {
+        leftSt.pop();
+      }
+      else { rightSt.push(item); }
+   }
+   public static void main(String []argh)
+   {
+      Scanner sc = new Scanner(System.in);
+      while (sc.hasNext()) {
+         String input = sc.next();
+         Stack leftSt = new Stack();
+         Stack rightSt = new Stack();
+         for (int i = 0; i < input.length(); i++) {
+            char item = input.charAt(i);
+            switch (item) {
+                case ')':
+                    checkMatch(leftSt, rightSt, item, '(');
+                    break;
+                case '}':
+                    checkMatch(leftSt, rightSt, item, '{');
+                    break;
+                case ']':
+                    checkMatch(leftSt, rightSt, item, '[');
+                    break;
+                default:
+                    leftSt.push(item);
+            }
+         }
+         System.out.println((leftSt.empty() && rightSt.empty()) ? "true" : "false"); 
+      }
+   }
+}
