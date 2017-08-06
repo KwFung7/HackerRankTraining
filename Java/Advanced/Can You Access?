@@ -1,0 +1,7 @@
+			o = new Inner().new Private();
+            Method priMethod = o.getClass().getDeclaredMethod("powerof2", int.class);
+            priMethod.setAccessible(true);
+            String st = (String)priMethod.invoke(o, num);
+            System.out.println(num + " is " + st);
+            
+ 
