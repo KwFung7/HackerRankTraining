@@ -1,0 +1,45 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        int m = input.nextInt();
+        BitSet bitsetA = new BitSet(n);
+        BitSet bitsetB = new BitSet(n);
+        for (int i = 0; i < m; i++) {
+            String command = input.next();
+            switch(command) {
+                case "AND":
+                    if (input.nextInt() == 1) { bitsetA.and(bitsetB); }
+                    else { bitsetB.and(bitsetA); }
+                    input.nextLine();
+                    break;
+                case "OR":
+                    if (input.nextInt() == 1) { bitsetA.or(bitsetB); }
+                    else { bitsetB.or(bitsetA); }
+                    input.nextLine();
+                    break;
+                case "XOR":
+                    if (input.nextInt() == 1) { bitsetA.xor(bitsetB); }
+                    else { bitsetB.xor(bitsetA); }
+                    input.nextLine();
+                    break;
+                case "SET":
+                    if (input.nextInt() == 1) { bitsetA.set(input.nextInt()); }
+                    else { bitsetB.set(input.nextInt()); }
+                    break;
+                case "FLIP":
+                    if (input.nextInt() == 1) { bitsetA.flip(input.nextInt()); }
+                    else { bitsetB.flip(input.nextInt()); }
+                    break;
+                default:
+                    break;
+            }
+            System.out.println(bitsetA.cardinality() + " " + bitsetB.cardinality());
+        }
+        input.close();
+    }
+}
