@@ -1,0 +1,101 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+final class Result {
+    private final int numberOfLib;
+    private final int numberOfRoad;
+    public Result(int numberOfLib, int numberOfRoad) {
+        this.numberOfLib = numberOfLib;
+        this.numberOfRoad = numberOfRoad;
+    }
+    public int getLibNumber() {
+        return numberOfLib;
+    }
+    public int getRoadNumber() {
+        return numberOfRoad;
+    }
+}
+
+public class Solution {
+    
+    public static HashSet<Integer> connectedCity = new HashSet<Integer>();
+    
+    // Connect city with possible road, input with specific city, output possible connected city set
+    public static void connectArea(int city, HashSet<Integer> connectedCity, HashSet<Integer> area, Map<Integer, HashSet<Integer>> road) {
+        if (road.get(city) != null && !road.get(city).isEmpty()) {
+            for (int item : road.get(city)) {
+                if (!area.contains(item)) {
+                    area.add(item);
+                    connectedCity.add(item);
+                    connectArea(item, connectedCity, area, road);
+                }
+            }
+        }
+    }
+    
+    // Count number of region, region meaning: area can be connected with road
+    public static Result numberOfRegion(int n, int m, Map<Integer, HashSet<Integer>> road) {
+        
+        HashSet<Integer> area;
+        HashSet<HashSet<Integer>> areaSet = new HashSet<HashSet<Integer>>(); // Store separate area detail
+        int numberOfRoad = 0;
+
+        for (int i = 1; i <= n; i++) {
+            if (connectedCity == null || !connectedCity.contains(i)) {
+                area = new HashSet<Integer>();
+                area.add(i);
+                connectedCity.add(i);
+                connectArea(i, connectedCity, area, road);
+                areaSet.add(area);
+                //System.out.println(areaSet);
+                numberOfRoad += area.size() - 1;
+            }
+        }
+        return new Result(areaSet.size(), numberOfRoad);
+    }
+    
+    public static void main(String[] args) {
+        
+        Scanner in = new Scanner(System.in);
+        int q = in.nextInt();
+        while (q-- > 0) {
+            int n = in.nextInt(); // City num
+            int m = in.nextInt(); // Road num
+            long x = in.nextLong(); // Cost of lib
+            long y = in.nextLong(); // Cost of road
+            Map<Integer, HashSet<Integer>> road = new HashMap<Integer, HashSet<Integer>>(m*2); // Store the connection
+            for(int b = 0; b < m; b++){
+                int city_1 = in.nextInt();
+                int city_2 = in.nextInt();
+                
+                // Create the city connection
+                HashSet<Integer> neighbors = road.get(city_1);
+                if (neighbors == null) {                
+                    neighbors = new HashSet<Integer>();
+                    road.put(city_1, neighbors);
+                }
+                neighbors.add(city_2);
+                
+                HashSet<Integer> neighborsR = road.get(city_2);
+                if (neighborsR == null) {                
+                    neighborsR = new HashSet<Integer>();
+                    road.put(city_2, neighborsR);
+                }
+                neighborsR.add(city_1);
+            }
+            
+            if (x < y) { System.out.println(x*n); } // Each city build lib
+            else {
+                Result result = numberOfRegion(n, m, road);
+                long costOfLib = result.getLibNumber()*x;
+                long costOfRoad = result.getRoadNumber()*y;
+                System.out.println(costOfLib + costOfRoad);
+                //System.out.println("LibNumber: " + result.getLibNumber() + " RoadNumber: " + result.getRoadNumber());
+                connectedCity.clear();
+            }
+        }
+    }
+}
