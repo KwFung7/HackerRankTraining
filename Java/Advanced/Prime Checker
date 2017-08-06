@@ -1,0 +1,10 @@
+import static java.lang.System.*;
+class Prime {
+    public static void checkPrime(int... numbers) {
+        for (int number : numbers) {
+            BigInteger i = new BigInteger(Integer.toString(number));
+            if (i.isProbablePrime(100)) { System.out.print(number + " "); }
+        }
+        System.out.println();
+    }
+}
