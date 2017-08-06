@@ -1,0 +1,110 @@
+class SumInLeavesVisitor extends TreeVis {
+    private static int sum = 0;
+    public int getResult() {
+        return sum;
+    }
+    public void visitNode(TreeNode node) {}
+    public void visitLeaf(TreeLeaf leaf) {
+        sum += leaf.getValue();
+    }
+}
+
+class ProductOfRedNodesVisitor extends TreeVis {
+    private static long product = 1;
+    private final int M = 1000000007;
+    public int getResult() {
+        return (int)product;
+    }
+
+    public void visitNode(TreeNode node) {
+        if (node.getColor() == Color.RED && node.getValue() != 0) {
+            product = (product * node.getValue()) % M;
+        }
+    }
+
+    public void visitLeaf(TreeLeaf leaf) {
+      	if (leaf.getColor() == Color.RED && leaf.getValue() != 0) {
+            product = (product * leaf.getValue()) % M;
+        }
+    }
+}
+
+class FancyVisitor extends TreeVis {
+    private static int sumL = 0;
+    private static int sumN = 0;
+    public int getResult() {
+        return Math.abs(sumN - sumL);
+    }
+    public void visitNode(TreeNode node) {
+    	if (node.getDepth() % 2 == 0) {
+            sumN += node.getValue();
+        }
+    }
+    public void visitLeaf(TreeLeaf leaf) {
+        if (leaf.getColor() == Color.GREEN) {
+            sumL += leaf.getValue();
+        }
+    }
+}
+
+public class Solution {
+    
+    private static TreeNode root;
+    private static int [] values;
+    private static Color [] colors;
+    private static HashMap<Integer, HashSet<Integer>> map;
+    
+    public static void createTree(TreeNode node, int i)  {
+        
+        for (Integer childNum : map.get(i)) {
+            map.get(childNum).remove(i);
+            
+            Tree tree;
+            if (map.get(childNum) != null && !map.get(childNum).isEmpty()) {
+                tree = new TreeNode(values[childNum - 1], colors[childNum - 1], node.getDepth() + 1);
+            }
+            else {
+                tree = new TreeLeaf(values[childNum - 1], colors[childNum - 1], node.getDepth() + 1);
+            }
+            node.addChild(tree);
+            
+            if (tree instanceof TreeNode) {
+                createTree((TreeNode) tree, childNum);
+            }    
+        }
+    }
+    
+    public static Tree solve() {
+        //read the tree from STDIN and return its root as a return value of this function
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        values = new int[n];
+        colors = new Color[n];
+        map = new HashMap<>(n);
+        for (int i = 0; i < n*2; i++) {
+            if (i < n) { values[i] = input.nextInt(); }
+            else { colors[i - n] = (input.nextInt() == 0) ? Color.RED : Color.GREEN; }
+        }
+        for (int i = 0; i < n - 1; i++) {
+            int u = input.nextInt();
+            int v = input.nextInt();
+            
+            HashSet<Integer> uNeighbors = map.get(u);
+            if (uNeighbors == null) {                
+                uNeighbors = new HashSet<>();
+                map.put(u, uNeighbors);
+            } 
+            uNeighbors.add(v);
+            
+            HashSet<Integer> vNeighbors = map.get(v);
+            if (vNeighbors == null) {
+                vNeighbors = new HashSet<>();
+                map.put(v, vNeighbors);
+            }
+            vNeighbors.add(u);
+        }
+        input.close();
+        root = new TreeNode(values[0], colors[0], 0);
+        createTree(root, 1);
+        return root;
+    }   
