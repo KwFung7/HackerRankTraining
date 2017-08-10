@@ -1,0 +1,49 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+    public static void insertionSortPart2(int[] ar)
+    {       
+        int index = 1;
+        int unsorted;
+        int insert;
+        while (index < ar.length) {
+            unsorted = ar[index];
+            insert = index - 1;
+            while (insert >= 0) {
+                if (ar[insert] > unsorted) {
+                    ar[insert + 1] = ar[insert];
+                    if (insert == 0) {
+                        ar[insert] = unsorted;
+                    }
+                } else {
+                    ar[insert + 1] = unsorted;
+                    break;
+                }
+                insert--;
+            }
+            printArray(ar);
+            index++;
+        }
+    }  
+    
+    
+      
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+       int s = in.nextInt();
+       int[] ar = new int[s];
+       for(int i=0;i<s;i++){
+            ar[i]=in.nextInt(); 
+       }
+       insertionSortPart2(ar);    
+                    
+    }    
+    private static void printArray(int[] ar) {
+      for(int n: ar){
+         System.out.print(n+" ");
+      }
+        System.out.println("");
+   }
+}
+
