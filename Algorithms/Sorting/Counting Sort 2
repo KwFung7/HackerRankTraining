@@ -1,0 +1,43 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+    private static int[] counting(int[] ar, int max) {
+        int[] count = new int[max + 1];
+        for (int i = 0; i < ar.length; i++) {
+            count[ar[i]] += 1;
+        }
+        for (int i = 1; i < count.length; i++) {
+            count[i] = count[i] + count[i - 1];
+        }
+        return count;
+    }
+    private static int[] sorting(int[] count, int [] ar) {
+        int[] result = new int[ar.length];
+        for (int value : ar) {
+            result[count[value] - 1] = value;
+            count[value] -= 1;
+        }
+        return result;
+    }
+    private static void printResult(int[] count) {
+        for (int item : count) {
+            System.out.print(item + " ");
+        }
+    }
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int[] ar = new int[n];
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) {
+            ar[i] = in.nextInt();
+            if (ar[i] > max) {
+                max = ar[i];
+            }
+        }
+        int[] count = counting(ar, max);
+        int[] result = sorting(count, ar);
+        printResult(result);
+    }
+}
