@@ -1,0 +1,48 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+    private static int[] counting(int[] ar, int max) {
+        int[] count = new int[max + 1];
+        for (int i = 0; i < ar.length; i++) {
+            count[ar[i]] += 1;
+        }
+        for (int i = 1; i < count.length; i++) {
+            count[i] = count[i] + count[i - 1];
+        }
+        return count;
+    }
+    private static String[] sorting(int[] count, int[] ar, String[] msg) {
+        String[] result = new String[ar.length];
+        for (int i = ar.length - 1; i >= 0; i--) {
+            if (i < ar.length/2) { msg[i] = "-"; }
+            result[count[ar[i]] - 1] = msg[i];
+            count[ar[i]] -= 1;
+        }
+        return result;
+    }
+    private static void printResult(String[] result) {
+        StringBuilder s = new StringBuilder();
+        for (String item : result) {
+            s.append(item + " ");
+        }
+        System.out.println(s);
+    }
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int[] ar = new int[n];
+        String[] msg = new String[n];
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) {
+            ar[i] = in.nextInt();
+            msg[i] = in.next();
+            if (ar[i] > max) {
+                max = ar[i];
+            }
+        }
+        int[] count = counting(ar, max);
+        String[] result = sorting(count, ar, msg);
+        printResult(result);
+    }
+}
