@@ -1,0 +1,45 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        Map<Integer, Integer> A = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> B = new HashMap<Integer, Integer>();
+        List<Integer> result = new ArrayList<Integer>();
+            
+        int n = in.nextInt();
+        for (int i = 0; i < n; i++) {
+            int temp = in.nextInt();
+            if (A.containsKey(temp)) {
+                A.put(temp, A.get(temp) + 1);
+            } else {
+                A.put(temp, 1);
+            }
+        }
+        int m = in.nextInt();
+        for (int i = 0; i < m; i++) {
+            int temp = in.nextInt();
+            if (B.containsKey(temp)) {
+                B.put(temp, B.get(temp) + 1);
+            } else {
+                B.put(temp, 1);
+            }
+        }
+        in.close();
+        for (int key : B.keySet()) {
+            if (A.get(key).equals(null)) {
+                result.add(key);
+            } else if (!A.get(key).equals(B.get(key))) {
+                result.add(key);
+            }
+        }
+        Collections.sort(result);
+        StringBuilder s = new StringBuilder();
+        for (int missValue : result) {
+            s.append(missValue + " ");
+        }
+        System.out.print(s);
+    }
+}
